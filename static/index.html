@@ -13,10 +13,22 @@
 
 <body class="container">
 
-	<div id="welcome-view" class="view">
-		<h2>Welcome</h2>
+	<h2>Welcome to Three Good Things</h2>
 		
-		
+	<p>
+      An application for sharing three good things happened to you today. It will make you happier.
+    </p>
+
+	<div id="welcome-view" class="view">		
+	    <p>
+	      <a class="btn btn-primary" href="/auth/google">Login with Google</a>
+	    </p>
+	</div>
+
+	<div id="loggedin-view" class="view">		
+	    <p>
+	      <a class="btn btn-warning" href="/auth/logout">Logout</a>
+	    </p>
 	</div>
 
 	<script src="jquery/jquery.min.js"></script>

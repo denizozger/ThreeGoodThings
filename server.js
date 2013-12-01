@@ -69,10 +69,6 @@ const authed = function(req, res, next) {
  * Public API
  */
 
-app.get('/api/:name', function(req, res) {
-  res.json(200, { "hello": req.params.name });
-});
-
 app.get('/api/user', authed, function(req, res){
   res.json(req.user);
 });
