@@ -15,6 +15,9 @@ app.use(express.session({
   })
 }));
 
+app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/bower_components'));
+
 app.get('/api/:name', function(req, res) {
   res.json(200, { "hello": req.params.name });
 });
