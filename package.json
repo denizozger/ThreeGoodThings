@@ -1,0 +1,15 @@
+{
+  "name": "three-good-things",
+  "version": "0.1.0",
+  "description": "Share three good things that happened today",
+  "author": "Deniz Ozger <denizozger@gmail.com>",
+  "dependencies": {
+    "request": "~2.27.0",
+    "express": "~3.4.5",
+    "redis": "~0.9.1",
+    "connect-redis": "~1.4.6"
+  },
+  "scripts": {
+    "start": "node --harmony ./server.js"
+  }
+}
