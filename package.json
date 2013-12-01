@@ -7,7 +7,10 @@
     "request": "~2.27.0",
     "express": "~3.4.5",
     "redis": "~0.9.1",
-    "connect-redis": "~1.4.6"
+    "connect-redis": "~1.4.6",
+    "passport": "~0.1.17",
+    "passport-google": "~0.3.0",
+    "npmlog": "0.0.6"
   },
   "scripts": {
     "start": "node --harmony ./server.js"
