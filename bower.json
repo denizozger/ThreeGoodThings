@@ -1,12 +1,14 @@
 {
-  "name": "b4",
+  "name": "ThreeGoodThings",
   "version": "0.0.1",
   "dependencies": {
     "jquery": "~2.0.3",
     "bootstrap": "~3.0.2",
     "typeahead.js": "~0.9.3",
     "typeahead.js-bootstrap.css": "*",
-    "handlebars": "~1.0.0"
+    "handlebars": "~1.0.0",
+    "backbone": "~1.1.0",
+    "underscore": "~1.5.2"
   },
   "resolutions": {
     "jquery": ">= 1.9.0"

@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="typeahead.js-bootstrap.css/typeahead.js-bootstrap.css">
-	<!-- <link rel="stylesheet" href="app.css"> -->
+	<link rel="stylesheet" href="app.css">
 </head>
 
 <body class="container">
@@ -16,8 +16,8 @@
 	<h2>Welcome to Three Good Things</h2>
 		
 	<p>
-      An application for sharing three good things happened to you today. It will make you happier.
-    </p>
+      Share three good things happened to you today. It will make you happier.
+  </p>
 
 	<div id="welcome-view" class="view">		
 	    <p>
@@ -31,11 +31,53 @@
 	    </p>
 	</div>
 
+	<form role="form" class="edit-things-form">
+	  <div class="form-group">
+	    <input type="text" class="form-control" placeholder="First thing">
+    </div>	
+    <div class="form-group">
+	    <input type="text" class="form-control" placeholder="Second thing">
+    </div>	
+    <div class="form-group">
+	    <input type="text" class="form-control" placeholder="Third thing">
+	  </div>
+	  <button type="submit" class="btn btn-success">Share</button>
+	</form>
+
 	<script src="jquery/jquery.min.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="typeahead.js/dist/typeahead.min.js"></script>
 	<script src="handlebars/handlebars.js"></script>
+	<script src="backbone/backbone-min.js"></script>
 	<!-- // <script src="app.js"></script> -->
+
+	<script>
+		var ThingsEditView = Backbone.View.extend({
+		    el: '.page',
+		    events: {
+		        'submit .edit-things-form': 'saveThings'
+		    },
+		    saveThings: function (ev) {
+		    	console.log('save');
+		    }
+		});
+
+		var thingsEditView = new ThingsEditView();
+
+		/**
+		 * Router
+		 */
+
+		var Router = Backbone.Router.extend({
+		    routes: {
+		        "things/new": "editThings"
+		    }
+		});
+
+		var router = new Router;
+
+		Backbone.history.start();
+	</script>
 </body>
 
 </html>
