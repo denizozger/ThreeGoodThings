@@ -45,39 +45,14 @@
 	</form>
 
 	<script src="jquery/jquery.min.js"></script>
+	<script src="underscore/underscore-min.js"></script>
+	<script src="backbone/backbone-min.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="typeahead.js/dist/typeahead.min.js"></script>
 	<script src="handlebars/handlebars.js"></script>
-	<script src="backbone/backbone-min.js"></script>
-	<!-- // <script src="app.js"></script> -->
 
-	<script>
-		var ThingsEditView = Backbone.View.extend({
-		    el: '.page',
-		    events: {
-		        'submit .edit-things-form': 'saveThings'
-		    },
-		    saveThings: function (ev) {
-		    	console.log('save');
-		    }
-		});
+	<script src="app.js"></script>
 
-		var thingsEditView = new ThingsEditView();
-
-		/**
-		 * Router
-		 */
-
-		var Router = Backbone.Router.extend({
-		    routes: {
-		        "things/new": "editThings"
-		    }
-		});
-
-		var router = new Router;
-
-		Backbone.history.start();
-	</script>
 </body>
 
 </html>
