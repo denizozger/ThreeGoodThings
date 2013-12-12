@@ -65,16 +65,32 @@ const authed = function(req, res, next) {
   }
 };
 
+app.listen(3000, function(){
+  console.log("ready captain.");
+});
+
 /**
  * Public API
  */
 
-app.get('/api/user', authed, function(req, res){
-  res.json(req.user);
+app.post('/api/threethings', [authed, express.json()], function(req, res){
+  var firstThing = req.body.firstthing;
+  var secondThing = req.body.firstthing;
+  var thirdThing = req.body.firstthing;
+  var userId = encodeURIComponent(req.user.identifier);
+
+  // TODO: save to DB
+
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end();
 });
 
-app.listen(3000, function(){
-  console.log("ready captain.");
+/**
+ * Security
+ */
+
+app.get('/api/user', authed, function(req, res){
+  res.json(req.user);
 });
 
 app.get('/auth/google/:return?',
