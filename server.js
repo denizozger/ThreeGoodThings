@@ -7,6 +7,7 @@ const
   RedisStore = require('connect-redis')(express),
   passport = require('passport'),
   GoogleStrategy = require('passport-google').Strategy,
+  request = require('request'),
   log = require('npmlog');
 
 app.use(express.logger('dev')),
@@ -26,6 +27,10 @@ app.use(express.static(__dirname + '/bower_components'));
 redisClient
 .on('ready', function() { log.info('REDIS', 'ready'); })
 .on('error', function(err) { log.error('REDIS', err.message); });
+
+const config = {
+  thingsdb: 'http://localhost:5984/things/'
+};
 
 /**
  * User authentication
@@ -73,13 +78,30 @@ app.listen(3000, function(){
  * Public API
  */
 
-app.post('/api/threethings', [authed, express.json()], function(req, res){
-  var firstThing = req.body.firstthing;
-  var secondThing = req.body.firstthing;
-  var thirdThing = req.body.firstthing;
-  var userId = encodeURIComponent(req.user.identifier);
+app.post('/api/threethings', [authed, express.json()], function(req, res) {
 
-  // TODO: save to DB
+  var things = {
+    first : req.body.firstthing,
+    second : req.body.firstthing,
+    third : req.body.firstthing
+  };
+
+  var userId = encodeURIComponent(req.user.identifier);
+  var today = new Date();
+
+  var thingsURL = config.thingsdb + encodeURIComponent(req.user.identifier) + 
+    today.getDate() + today.getMonth() + today.getFullYear();
+
+  request({
+    method: 'PUT',
+    url: config.thingsdb + thingsURL,
+    json: things
+  }, function(err, res, body) {
+    if (err) {
+      throw Error(err);
+    }
+    log.verbose(res.statusCode, things);
+  });
 
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.end();
