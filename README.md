@@ -13,6 +13,7 @@ You need to install [Redis](http://redis.io/) data store as well.
 
 ``` bash
 npm install
+redis-server
 node --harmony server.js
 ```
 
