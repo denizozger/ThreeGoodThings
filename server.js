@@ -8,7 +8,8 @@ const
   passport = require('passport'),
   GoogleStrategy = require('passport-google').Strategy,
   request = require('request'),
-  log = require('npmlog');
+  log = require('npmlog'),
+  http = require('http');
 
 app.use(express.logger('dev')),
 app.use(express.cookieParser());
@@ -82,35 +83,58 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
 
   var things = {
     first : req.body.firstthing,
-    second : req.body.firstthing,
-    third : req.body.firstthing
+    second : req.body.secondthing,
+    third : req.body.thirdthing
   };
 
   var userId = encodeURIComponent(req.user.identifier);
   var today = new Date();
 
-  var thingsURL = config.thingsdb + encodeURIComponent(req.user.identifier) + 
+  var thingsURL = config.thingsdb + '1/' + 
     today.getDate() + today.getMonth() + today.getFullYear();
+  
+  // console.log(thingsURL);
+  // console.log(things);
 
   request({
     method: 'PUT',
-    url: config.thingsdb + thingsURL,
+    url: thingsURL,
     json: things
   }, function(err, res, body) {
     if (err) {
-      throw Error(err);
+      //throw Error(err);
+      log.error(err);
     }
-    log.verbose(res.statusCode, things);
+    //log.verbose(res.statusCode, things);
   });
 
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.end();
 });
 
+app.get('/api/threethings', authed, function(req, res){
+
+  function getThings(callback) {
+    request({
+      method: 'GET',
+      url: 'http://localhost:5984/things/1/2302014'
+    }, function(err, res, body) {
+      callback(JSON.parse(body));
+    });
+  }
+
+  function handleThings(things){
+    res.json([things]);
+  }
+
+  getThings(function(things){
+    handleThings(things);        
+  });
+});
+
 /**
  * Security
  */
-
 app.get('/api/user', authed, function(req, res){
   res.json(req.user);
 });

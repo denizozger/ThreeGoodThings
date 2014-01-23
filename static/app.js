@@ -18,9 +18,12 @@ var ThingsEditView = Backbone.View.extend({
     
     threethings.save(threeThingsDetails, {
       success: function () {
-
+        console.log('saved');
+        router.navigate('things', {trigger:true});
       }
     });
+
+    router.navigate('things', {trigger:true});
 
     return false;
   }
@@ -28,21 +31,43 @@ var ThingsEditView = Backbone.View.extend({
 
 var thingsEditView = new ThingsEditView();
 
+var ThingsListView = Backbone.View.extend({
+    el: '.page',
+    render: function () {
+      console.log('render')
+        var that = this;
+        var threeThings = new ThreeThings();
+        threeThings.fetch({
+            success: function (things) {
+              console.log(things.attributes)
+                var template = _.template($('#things-list-template').html(), {things: things.attributes});
+                that.$el.html(template);
+            }
+        })
+    }
+});
+
+var thingsListView = new ThingsListView();
 
 
-// var Router = Backbone.Router.extend({
-  // routes: {
-    // '': 'home'
-  // }
-// });
+var Router = Backbone.Router.extend({
+  routes: {
+    '': 'home',
+    "things": "things",
+  }
+});
 
-// var router = new Router;
+var router = new Router;
 
-// router.on('route:home', function() {
+router.on('route:home', function() {
   thingsEditView.render();
-// });
+});
 
-// Backbone.history.start();
+router.on('route:things', function() {
+  thingsListView.render();
+})
+
+Backbone.history.start();
 
 $.fn.serializeObject = function() {
     var o = {};

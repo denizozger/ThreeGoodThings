@@ -48,6 +48,32 @@
 		</form>
 	</script>
 
+	<script type="text/template" id="things-list-template">
+	    <div class="container">
+	        <h1>Things</h1>
+	        <div class="table-responsive">
+	            <table class="table table-hover table-striped">
+	                <thead>
+	                <tr>
+	                    <th>One</th>
+	                    <th>Two</th>
+	                    <th>Three</th>
+	                </tr>
+	                </thead>
+	                <tbody>
+	                <% _.each(things, function(thing) { %>
+	                <tr>
+	                    <td><%= thing.first %></td>
+	                    <td><%= thing.second %></td>
+	                    <td><%= thing.third %></td>
+	                </tr>
+	                <% }); %>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</script>
+
 	<script src="jquery/jquery.min.js"></script>
 	<script src="underscore/underscore-min.js"></script>
 	<script src="backbone/backbone-min.js"></script>
@@ -56,6 +82,27 @@
 	<script src="handlebars/handlebars.js"></script>
 
 	<script src="app.js"></script>
+
+	<script>
+    function htmlEncode(value){
+        return $('<div/>').text(value).html();
+    }
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
 
 </body>
 

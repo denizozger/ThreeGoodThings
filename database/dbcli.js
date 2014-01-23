@@ -1,4 +1,13 @@
 #!/usr/bin/env node --harmony
+
+/**
+ * ./dbcli.js DELETE things
+ * ./dbcli.js PUT things
+ * ./dbcli.js GET things
+ *
+ * ./dbcli.js GET things/1
+ */
+
 const
   request = require('request'),
   options = {
