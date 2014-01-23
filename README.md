@@ -14,7 +14,6 @@ You need to install [Redis](http://redis.io/) data store as well.
 ``` bash
 npm install
 bower install
-redis-server
 ```
 
 # Running
