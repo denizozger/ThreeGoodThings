@@ -13,6 +13,14 @@ You need to install [Redis](http://redis.io/) data store as well.
 
 ``` bash
 npm install
+bower install
+```
+
+# Running
+
+```bash
+couchdb
+redis-server
 node --harmony server.js
 ```
 
@@ -21,3 +29,7 @@ Go to [http://localhost:3000/](http://localhost:3000/)
 # Contribution
 
 This is a project that I work on in my spare time, which is little. If you are inspired, drop me an email and/or create a pull request.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/denizozger/threegoodthings/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
