@@ -5,9 +5,9 @@ A (soon to be) application that people can share three good things happened on e
 
 # Requirements
 
-You need to install Node.js version higher than 11 (currently unstable) as it allows to use [ECMAScript Harmony](http://en.wikipedia.org/wiki/ECMAScript#ECMAScript_Harmony_.286th_Edition.29).
-
-You need to install [Redis](http://redis.io/) data store as well.
+- [CouchDB](http://couchdb.apache.org/) as the main database
+- [Redis](http://redis.io/) for sessions
+- [Bower](https://github.com/bower/bower) for managing front-end packages
 
 # Installation
 
