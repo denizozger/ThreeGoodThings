@@ -11,6 +11,8 @@ const
   log = require('npmlog'),
   http = require('http');
 
+log.level = process.env.LOGGING_LEVEL || 'silly';
+
 app.use(express.logger('dev')),
 app.use(express.cookieParser());
 app.use(express.session({
@@ -57,13 +59,16 @@ passport.use(new GoogleStrategy({
 // Authentication middleware
 const authed = function(req, res, next) {
   if (req.isAuthenticated()) {
+    log.silly('Allowed: user is authenticated');
     return next();
   } else if (redisClient.ready) {
+    log.warn('Forbidden: user is not authenticated');
     res.json(403, {
       error: "forbidden",
       reason: "not_authenticated"
     });
   } else {
+    log.error('Error: service unavailable');
     res.json(503, {
       error: "service_unavailable",
       reason: "authentication_unavailable"
@@ -72,7 +77,7 @@ const authed = function(req, res, next) {
 };
 
 app.listen(3000, function(){
-  console.log("ready captain.");
+  console.log("Server listening on http://localhost:3000/");
 });
 
 /**
@@ -144,6 +149,7 @@ app.get('/auth/google/:return?',
 );
 
 app.get('/auth/logout', function(req, res){
+  log.silly('Logging out');
   req.logout();
   res.redirect('/');
 });
