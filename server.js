@@ -92,15 +92,10 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
     third : req.body.thirdthing
   };
 
-  var userId = encodeURIComponent(req.user.identifier);
-  var today = new Date();
+  var userId = encodeURIComponent(req.user.identifier); //todo to be used
 
-  var thingsURL = config.thingsdb + '1/' + 
-    today.getDate() + today.getMonth() + today.getFullYear();
+  var thingsURL = getTestThingURL();
   
-  // console.log(thingsURL);
-  // console.log(things);
-
   request({
     method: 'PUT',
     url: thingsURL,
@@ -119,16 +114,19 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
 
 app.get('/api/threethings', authed, function(req, res){
 
+  log.silly('GET /api/threethings');
+
   function getThings(callback) {
     request({
       method: 'GET',
-      url: 'http://localhost:5984/things/1/2302014'
+      url: getTestThingURL(),
     }, function(err, res, body) {
       callback(JSON.parse(body));
     });
   }
 
   function handleThings(things){
+    log.silly('Returning things JSON: ' + JSON.stringify(things, null, 4));
     res.json([things]);
   }
 
@@ -153,3 +151,16 @@ app.get('/auth/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+/**
+ * Temporary - Testing
+ */
+
+ function getTestThingURL() {
+  var today = new Date();
+
+  var thingsURL = config.thingsdb + '1/' + 
+    today.getDate() + today.getMonth() + today.getFullYear();
+
+  return thingsURL;
+ }
