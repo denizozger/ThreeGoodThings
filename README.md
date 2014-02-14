@@ -14,6 +14,7 @@ A (soon to be) application that people can share three good things happened on e
 ``` bash
 npm install
 bower install
+curl -X PUT http://localhost:5984/things/
 ```
 
 # Running
