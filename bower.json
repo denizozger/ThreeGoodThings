@@ -5,12 +5,13 @@
     "jquery": "~2.0.3",
     "underscore": "~1.5.2",
     "backbone": "~1.1.0",
-    "bootstrap": "~3.0.2",
+    "bootstrap": "~3.1.1",
     "typeahead.js": "~0.9.3",
     "typeahead.js-bootstrap.css": "*",
     "handlebars": "~1.0.0"
   },
   "resolutions": {
-    "jquery": ">= 1.9.0"
+    "jquery": ">= 1.9.0",
+    "bootstrap": "~3.1.1"
   }
-} 
+}

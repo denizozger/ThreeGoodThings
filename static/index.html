@@ -35,20 +35,27 @@
 
 	<script type="text/template" id="edit-things-form">
 		<form role="form" class="edit-things-form">
-		  <div class="form-group">
-		    <input name="firstthing" type="text" class="form-control" placeholder="First thing">
-	    </div>	
-	    <div class="form-group">
-		    <input name="secondthing" type="text" class="form-control" placeholder="Second thing">
-	    </div>	
-	    <div class="form-group">
-		    <input name="thirdthing" type="text" class="form-control" placeholder="Third thing">
-		  </div>
-		  <button type="submit" class="btn btn-success">Share</button>
+			<div class="form-group">
+				<input name="firstthing" type="text" class="form-control" placeholder="First thing">
+		    </div>	
+		    <div class="form-group">
+		    	<input name="secondthing" type="text" class="form-control" placeholder="Second thing">
+	    	</div>	
+	    	<div class="form-group">
+		    	<input name="thirdthing" type="text" class="form-control" placeholder="Third thing">
+			</div>
+			<!-- http://stackoverflow.com/questions/18031608/how-to-get-radio-button-group-values-in-bootstrap -->
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default">Name Surname</button>
+			  <button type="button" class="btn btn-default">Name S.</button>
+			  <button type="button" class="btn btn-default">Private</button>
+			</div>
+			<button type="submit" class="btn btn-success" style="display: block;margin-top: 1em;">Share</button>
 		</form>
 	</script>
 
 	<script type="text/template" id="things-list-template">
+
 	    <div class="container">
 	        <h1>Things</h1>
 	        <div class="table-responsive">
@@ -58,6 +65,8 @@
 	                    <th>One</th>
 	                    <th>Two</th>
 	                    <th>Three</th>
+	                    <th>By</th>
+	                    <th>On</th>
 	                </tr>
 	                </thead>
 	                <tbody>
@@ -66,6 +75,8 @@
 	                    <td><%= thing.first %></td>
 	                    <td><%= thing.second %></td>
 	                    <td><%= thing.third %></td>
+	                    <td><%= thing.addedBy.name %></td>
+	                    <td><%= thing.addedDate.day %>.<%= thing.addedDate.month %>.<%= thing.addedDate.year %></td>
 	                </tr>
 	                <% }); %>
 	                </tbody>
@@ -74,9 +85,9 @@
 	    </div>
 	</script>
 
-	<script src="jquery/jquery.min.js"></script>
+	<script src="jquery/dist/jquery.min.js"></script>
 	<script src="underscore/underscore-min.js"></script>
-	<script src="backbone/backbone-min.js"></script>
+	<script src="backbone/backbone.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="typeahead.js/dist/typeahead.min.js"></script>
 	<script src="handlebars/handlebars.js"></script>

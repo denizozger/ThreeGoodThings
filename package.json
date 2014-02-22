@@ -10,7 +10,9 @@
     "connect-redis": "~1.4.6",
     "passport": "~0.1.17",
     "passport-google": "~0.3.0",
-    "npmlog": "0.0.6"
+    "npmlog": "0.0.6",
+    "async": "~0.2.10",
+    "q": "~0.9.7"
   },
   "scripts": {
     "start": "node --harmony ./server.js"
