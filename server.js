@@ -127,7 +127,7 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
   res.end();
 });
 
-app.get('/api/threethings', authed, function(req, res) {
+app.get('/api/threethings', function(req, res) {
 
   function getAllThings(callback) {
     request({
@@ -176,6 +176,10 @@ app.get('/api/threethings', authed, function(req, res) {
   getAllThings(function(things){
     handleAllThings(things);        
   });
+});
+
+app.get('/api/home', function(req, res){
+  res.json({data: '', user: req.user});
 });
 
 /**

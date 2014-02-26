@@ -17,21 +17,25 @@
 		
 	<p>
       Share three good things happened to you today. It will make you happier.
-  </p>
+  	</p>
 
-	<div id="welcome-view" class="view">		
+	<div class="view">		
 	    <p>
-	      <a class="btn btn-primary" href="/auth/google">Login with Google</a>
+	    	<div id="login-logout-section"></div>
 	    </p>
 	</div>
 
-	<div id="loggedin-view" class="view">		
-	    <p>
-	      <a class="btn btn-warning" href="/auth/logout">Logout</a>
-	    </p>
-	</div>
+	<div class="things-edit"></div>
 
-	<div class="page"></div>
+	<div class="things-list"></div>
+
+	<script type="text/template" id="login-logout-button">
+		<% if (loggedInUser) { %>
+		    <a class="btn btn-warning" href="/auth/logout">Logout</a>  
+		<% } else { %>
+			<a class="btn btn-primary" href="/auth/google">Login with Google</a>
+		<% } %>
+	</script>
 
 	<script type="text/template" id="edit-things-form">
 		<form role="form" class="edit-things-form">
@@ -85,7 +89,8 @@
 	    </div>
 	</script>
 
-	<script src="jquery/dist/jquery.min.js"></script>
+	<!-- // <script src="jquery/dist/jquery.min.js"></script> -->
+	<script src="jquery/jquery.min.js"></script>
 	<script src="underscore/underscore-min.js"></script>
 	<script src="backbone/backbone.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>

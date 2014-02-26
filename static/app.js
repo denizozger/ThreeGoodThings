@@ -1,9 +1,44 @@
+/**
+ * Home
+ */
+
+var Home = Backbone.Model.extend({
+  urlRoot: '/api/home'
+})
+
+var HomeView = Backbone.View.extend({
+  el: '#login-logout-section',
+  render: function() {
+    var that = this;
+    var home = new Home();
+
+    home.fetch({
+        success: function (home) {
+          var loggedInUser = home.attributes.user;
+
+          var template = _.template($('#login-logout-button').html(), {loggedInUser: loggedInUser});
+          that.$el.html(template);
+
+          if (loggedInUser) {
+            thingsEditView.render();
+          } 
+        }
+    })
+  }
+});
+
+var homeView = new HomeView();
+
+/**
+ * Three Things Edit
+ */
+
 var ThreeThings = Backbone.Model.extend({
   urlRoot: '/api/threethings'
 });
 
 var ThingsEditView = Backbone.View.extend({
-  el: '.page',
+  el: '.things-edit',
   events: {
     'submit .edit-things-form': 'saveThings'
   },
@@ -18,7 +53,6 @@ var ThingsEditView = Backbone.View.extend({
     
     threethings.save(threeThingsDetails, {
       success: function () {
-        console.log('saved');
         router.navigate('things', {trigger:true});
       }
     });
@@ -31,17 +65,20 @@ var ThingsEditView = Backbone.View.extend({
 
 var thingsEditView = new ThingsEditView();
 
+/**
+ * Three Things List
+ */
+
 var ThingsListView = Backbone.View.extend({
-    el: '.page',
+    el: '.things-list',
     render: function () {
-      console.log('render')
         var that = this;
         var threeThings = new ThreeThings();
         threeThings.fetch({
             success: function (things) {
-              console.log(things.attributes)
-                var template = _.template($('#things-list-template').html(), {things: things.attributes});
-                that.$el.html(template);
+              console.log('fetched')
+              var template = _.template($('#things-list-template').html(), {things: things.attributes});
+              that.$el.html(template);
             }
         })
     }
@@ -49,18 +86,23 @@ var ThingsListView = Backbone.View.extend({
 
 var thingsListView = new ThingsListView();
 
+/**
+ * Routing
+ */
 
 var Router = Backbone.Router.extend({
   routes: {
     '': 'home',
-    "things": "things",
+    'things': 'things',
   }
 });
 
 var router = new Router;
 
 router.on('route:home', function() {
-  thingsEditView.render();
+  homeView.render();
+
+  thingsListView.render();
 });
 
 router.on('route:things', function() {
