@@ -87,7 +87,7 @@ app.get('/api/threethings/edit', function(req, res) {
 
 app.post('/api/threethings/edit', [authed, express.json()], function(req, res) {
 
-  var today = new Date();
+  var now = new Date();
 
   var things = {
     first : req.body.firstthing,
@@ -98,14 +98,13 @@ app.post('/api/threethings/edit', [authed, express.json()], function(req, res) {
       surname : req.user.identifier.name.familyName
     },
     addedDate : {
-      day : today.getDate(),
-      month : today.getMonth(),
-      year : today.getFullYear()
+      day : now.getDate(),
+      month : now.getMonth(),
+      year : now.getFullYear()
     }
   };
 
   var userId = encodeURIComponent(req.user.identifier.identifier);
-
 
   var thingsURL = config.thingsdb + '1-' +
     // today.getDate() + today.getMonth() + today.getFullYear();
@@ -120,7 +119,6 @@ app.post('/api/threethings/edit', [authed, express.json()], function(req, res) {
     json: things
   }, function(err, res, body) {
     if (err) {
-      //throw Error(err);
       log.error(err);
     }
     log.verbose(res.statusCode, things);
@@ -155,6 +153,11 @@ app.get('/api/threethings/list', function(req, res) {
 
         if (completedCalls === allThings.rows.length) {
           log.info('Retrieved ' + allThingsData.length + ' records');
+
+          allThingsData = sortByDate(allThingsData);
+
+          console.log(allThingsData)
+
           res.json({data: allThingsData, user: req.user});
         }
       }
@@ -208,6 +211,17 @@ app.get('/api/session', function(req, res) {
         res.send('You have no session.');
     }
 });
+
+function sortByDate(array) {
+  array.sort(function(o1, o2) {
+    var o1date = new Date(o1.addedDate.year + '-' + o1.addedDate.month + '-' + o1.addedDate.day);
+    var o2date = new Date(o2.addedDate.year + '-' + o2.addedDate.month + '-' + o2.addedDate.day);
+
+    return new Date(o2date) - new Date(o1date);
+  });
+
+  return array;
+}
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);

@@ -69,7 +69,7 @@ var ThingsEditView = Backbone.View.extend({
       }
     });
 
-    // router.navigate('things', {trigger:true});
+    router.navigate('things', {trigger:true});
 
     var thingsListView = new ThingsListView();
     thingsListView.render();

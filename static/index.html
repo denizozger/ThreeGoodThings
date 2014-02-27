@@ -79,7 +79,7 @@
 	                    <td><%= thing.first %></td>
 	                    <td><%= thing.second %></td>
 	                    <td><%= thing.third %></td>
-	                    <td><%= thing.addedBy.name %></td>
+	                    <td><%= thing.addedBy.name %> <%= thing.addedBy.surname.charAt(0) %>.</td>
 	                    <td><%= thing.addedDate.day %>.<%= thing.addedDate.month %>.<%= thing.addedDate.year %></td>
 	                </tr>
 	                <% }); %>
