@@ -2,39 +2,39 @@
  * Home
  */
 
-var Home = Backbone.Model.extend({
+var LoginLogout = Backbone.Model.extend({
   urlRoot: '/api/home'
 })
 
-var HomeView = Backbone.View.extend({
+var LoginLogoutView = Backbone.View.extend({
   el: '#login-logout-section',
   render: function() {
     var that = this;
-    var home = new Home();
+    var loginLogout = new LoginLogout();
 
-    home.fetch({
-        success: function (home) {
-          var loggedInUser = home.attributes.user;
+    loginLogout.fetch({
+        success: function (response) {
+          var loggedInUser = response.attributes.user;
 
           var template = _.template($('#login-logout-button').html(), {loggedInUser: loggedInUser});
           that.$el.html(template);
 
           if (loggedInUser) {
             thingsEditView.render();
-          } 
+          }
         }
     })
   }
 });
 
-var homeView = new HomeView();
+var loginLogoutView = new LoginLogoutView();
 
 /**
  * Three Things Edit
  */
 
-var ThreeThings = Backbone.Model.extend({
-  urlRoot: '/api/threethings'
+var ThreeThingsEdit = Backbone.Model.extend({
+  urlRoot: '/api/threethings/edit'
 });
 
 var ThingsEditView = Backbone.View.extend({
@@ -44,20 +44,35 @@ var ThingsEditView = Backbone.View.extend({
   },
   render: function() {
     var that = this;
-    var template = _.template($('#edit-things-form').html(), {});
-    that.$el.html(template);
+
+    var threeThingsEdit = new ThreeThingsEdit();
+
+    threeThingsEdit.fetch({
+        success: function (response) {
+          var loggedInUser = response.attributes.user;
+
+          if (loggedInUser) {
+            var template = _.template($('#edit-things-form').html(), {});
+            that.$el.html(template);
+          }
+        }
+    })
   },
   saveThings: function (ev) {
     var threeThingsDetails = $(ev.currentTarget).serializeObject();
-    var threethings = new ThreeThings();
-    
-    threethings.save(threeThingsDetails, {
+    var threethingsEdit = new ThreeThingsEdit();
+
+    threethingsEdit.save(threeThingsDetails, {
       success: function () {
+        console.log('Successfully saved things: ' + JSON.stringify(threeThingsDetails));
         router.navigate('things', {trigger:true});
       }
     });
 
-    router.navigate('things', {trigger:true});
+    // router.navigate('things', {trigger:true});
+
+    var thingsListView = new ThingsListView();
+    thingsListView.render();
 
     return false;
   }
@@ -69,15 +84,19 @@ var thingsEditView = new ThingsEditView();
  * Three Things List
  */
 
+ var ThreeThingsList = Backbone.Model.extend({
+   urlRoot: '/api/threethings/list'
+ });
+
 var ThingsListView = Backbone.View.extend({
     el: '.things-list',
     render: function () {
         var that = this;
-        var threeThings = new ThreeThings();
+        var threeThings = new ThreeThingsList();
         threeThings.fetch({
             success: function (things) {
-              console.log('fetched')
-              var template = _.template($('#things-list-template').html(), {things: things.attributes});
+              console.log('Fetched ' + things.attributes.data.length);
+              var template = _.template($('#things-list-template').html(), {things: things.attributes.data});
               that.$el.html(template);
             }
         })
@@ -100,12 +119,15 @@ var Router = Backbone.Router.extend({
 var router = new Router;
 
 router.on('route:home', function() {
-  homeView.render();
-
+  loginLogoutView.render();
+  thingsEditView.render();
   thingsListView.render();
 });
 
 router.on('route:things', function() {
+  console.log('Router: #things');
+  loginLogoutView.render();
+  thingsEditView.render();
   thingsListView.render();
 })
 

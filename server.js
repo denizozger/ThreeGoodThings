@@ -59,7 +59,6 @@ passport.use(new GoogleStrategy({
 // Authentication middleware
 const authed = function(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log(req.user)
     return next();
   } else if (redisClient.ready) {
     res.json(403, {
@@ -82,7 +81,11 @@ app.listen(3000, function(){
  * Public API
  */
 
-app.post('/api/threethings', [authed, express.json()], function(req, res) {
+app.get('/api/threethings/edit', function(req, res) {
+  res.json({data: '', user: req.user});
+});
+
+app.post('/api/threethings/edit', [authed, express.json()], function(req, res) {
 
   var today = new Date();
 
@@ -102,13 +105,13 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
   };
 
   var userId = encodeURIComponent(req.user.identifier.identifier);
-  
 
-  var thingsURL = config.thingsdb + '1-' + 
+
+  var thingsURL = config.thingsdb + '1-' +
     // today.getDate() + today.getMonth() + today.getFullYear();
     getRandomInt(1, 1000);
-  
-  log.info('Adding record to DB. URL: ' + thingsURL + ' , values: ' + 
+
+  log.info('Adding record to DB. URL: ' + thingsURL + ' , values: ' +
     things.first + ' ' + things.second + ' '  + things.third);
 
   request({
@@ -127,7 +130,7 @@ app.post('/api/threethings', [authed, express.json()], function(req, res) {
   res.end();
 });
 
-app.get('/api/threethings', function(req, res) {
+app.get('/api/threethings/list', function(req, res) {
 
   function getAllThings(callback) {
     request({
@@ -152,7 +155,7 @@ app.get('/api/threethings', function(req, res) {
 
         if (completedCalls === allThings.rows.length) {
           log.info('Retrieved ' + allThingsData.length + ' records');
-          res.json(allThingsData);
+          res.json({data: allThingsData, user: req.user});
         }
       }
 
@@ -168,13 +171,13 @@ app.get('/api/threethings', function(req, res) {
     }, function(err){
       if (err) {
         log.error('Error: ' + err)
-      }   
+      }
     });
-      
+
   }
 
   getAllThings(function(things){
-    handleAllThings(things);        
+    handleAllThings(things);
   });
 });
 
@@ -206,7 +209,6 @@ app.get('/api/session', function(req, res) {
     }
 });
 
-// Temporary
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
