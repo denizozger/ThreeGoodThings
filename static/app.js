@@ -65,11 +65,11 @@ var ThingsEditView = Backbone.View.extend({
     threethingsEdit.save(threeThingsDetails, {
       success: function () {
         console.log('Successfully saved things: ' + JSON.stringify(threeThingsDetails));
-        router.navigate('things', {trigger:true});
+        router.navigate('', {trigger:true});
       }
     });
 
-    router.navigate('things', {trigger:true});
+    router.navigate('', {trigger:true});
 
     var thingsListView = new ThingsListView();
     thingsListView.render();
@@ -111,8 +111,7 @@ var thingsListView = new ThingsListView();
 
 var Router = Backbone.Router.extend({
   routes: {
-    '': 'home',
-    'things': 'things',
+    '': 'home'
   }
 });
 
@@ -123,13 +122,6 @@ router.on('route:home', function() {
   thingsEditView.render();
   thingsListView.render();
 });
-
-router.on('route:things', function() {
-  console.log('Router: #things');
-  loginLogoutView.render();
-  thingsEditView.render();
-  thingsListView.render();
-})
 
 Backbone.history.start();
 
