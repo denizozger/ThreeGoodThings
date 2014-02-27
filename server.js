@@ -95,7 +95,9 @@ app.post('/api/threethings/edit', [authed, express.json()], function(req, res) {
     third : req.body.thirdthing,
     addedBy : {
       name : req.user.identifier.name.givenName,
-      surname : req.user.identifier.name.familyName
+      surname : req.user.identifier.name.familyName,
+      email : req.user.identifier.emails[0].value,
+      identifier : req.user.identifier.identifier
     },
     addedDate : {
       day : now.getDate(),
