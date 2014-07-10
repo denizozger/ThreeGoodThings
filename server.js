@@ -84,15 +84,10 @@ app.listen(3000, function(){
  * Public API
  */
 
-app.get('/api/threethings/edit', function(req, res) {
+app.get('/api/threethings/edit', authed, function(req, res) {
   res.json({data: '', user: req.user});
 });
 
 app.get('/api/home', function(req, res){
   res.json({data: '', user: req.user});
 });
-
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
